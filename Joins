@@ -1,0 +1,76 @@
+use restaurent;
+show tables;
+select * from customer;
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customerId INT,order_date DATE NOT NULL,
+    total_amount DECIMAL(10,2),status VARCHAR(50) DEFAULT 'Pending',
+    FOREIGN KEY (customerId) REFERENCES customer(customerId)
+    );
+describe orders;
+describe customer;
+alter table customer add email varchar(30);
+alter table customer add createdAt timestamp;
+ALTER TABLE customer ADD address TEXT;
+alter table orders add paymentMode varchar(30);
+alter table orders add  Note varchar(30);
+select * from customer;
+
+INSERT INTO customer (content, mobileNumber, customerName, email, createdAt, address)
+VALUES 
+('Vegetarian, prefers spicy food', '9876543210', 'Amit Sharma', 'amit@gmail.com', NOW(), 'Bhopal, MP'),
+('Birthday on Oct 5', '9123456789', 'Priya Verma', 'priya@gmail.com', NOW(), 'Indore, MP'),
+('Loyal customer, likes desserts', '9988776655', 'Rahul Mehta', 'rahul@gmail.com', NOW(), 'Jabalpur, MP'),
+('Prefers takeaway', '9001122334', 'Sneha Joshi', 'sneha@gmail.com', NOW(), 'Gwalior, MP'),
+('Gold member', '9112233445', 'Vikram Singh', 'vikram@gmail.com', NOW(), 'Ujjain, MP'),
+('Allergic to peanuts', '9223344556', 'Neha Patel', 'neha@gmail.com', NOW(), 'Sagar, MP'),
+('Likes South Indian dishes', '9334455667', 'Ravi Dubey', 'ravi@gmail.com', NOW(), 'Rewa, MP'),
+('Regular weekend visitor', '9445566778', 'Anjali Rao', 'anjali@gmail.com', NOW(), 'Satna, MP'),
+('Prefers online payment', '9556677889', 'Karan Thakur', 'karan@gmail.com', NOW(), 'Dewas, MP'),
+('Enjoys buffet meals', '9667788990', 'Meena Kumari', 'meena@gmail.com', NOW(), 'Ratlam, MP');
+
+INSERT INTO customer (content, mobileNumber, customerName, email, createdAt, address)
+VALUES ('New customer, no orders yet', '9998887776', 'Rohit Jain', 'rohit@gmail.com', NOW(), 'Bhopal, MP');
+
+select * from customer;
+INSERT INTO orders (customerId, order_date, total_amount, status)
+VALUES 
+(1, '2025-09-20', 450.00, 'Completed'),
+(2, '2025-09-21', 320.50, 'Pending'),
+(3, '2025-09-22', 150.75, 'Completed'),
+(4, '2025-09-23', 600.00, 'Cancelled'),
+(5, '2025-09-24', 275.25, 'Completed'),
+(6, '2025-09-25', 499.99, 'Pending'),
+(7, '2025-09-26', 350.00, 'Completed'),
+(8, '2025-09-27', 700.00, 'Completed'),
+(9, '2025-09-28', 120.00, 'Pending'),
+(10, '2025-09-29', 250.00, 'Completed');
+
+INSERT INTO orders (customerId, order_date, total_amount, status)
+VALUES (1, '2025-09-30', 300.00, 'Pending');
+
+select * from orders;
+
+/*inner join*/
+SELECT customer.customerId, customer.customerName, orders.order_id, orders.total_amount
+FROM customer
+INNER JOIN orders ON customer.customerId = orders.customerId;
+
+/*Left join*/
+SELECT customer.customerId, customer.customerName, orders.order_id, orders.total_amount
+FROM customer
+LEFT JOIN orders ON customer.customerId = orders.customerId;
+
+/*Right join*/
+SELECT customer.customerId, customer.customerName, orders.order_id, orders.total_amount
+FROM customer
+RIGHT JOIN orders ON customer.customerId = orders.customerId;
+
+/*full join*/
+SELECT customer.customerId, customer.customerName, orders.order_id, orders.total_amount
+FROM customer
+LEFT JOIN orders ON customer.customerId = orders.customerId
+UNION
+SELECT customer.customerId, customer.customerName, orders.order_id, orders.total_amount
+FROM customer
+RIGHT JOIN orders ON customer.customerId = orders.customerId;
